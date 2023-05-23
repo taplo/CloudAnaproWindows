@@ -54,7 +54,7 @@ class Anapro:
         path：字符串，SQLite的数据库文件目录
         '''
         if tushare is None:
-            tushare = ''
+            tushare = 'd64e1276b2b891515c790907ab2d3f20f299f2b54029ee9632894867'
 
         if path is None:
             if redis is None:
@@ -74,7 +74,7 @@ class Anapro:
         
 
         # 设置TuShare的Token和接口
-        self.__ts_api = ts.pro_api()
+        self.__ts_api = ts.pro_api(tushare)
 
         # 设置节奏控制器
         self.__rhy = Rhythm(495, 60)
