@@ -19,6 +19,7 @@ import time
 
 from anapro import Anapro
 
+from commontools import adjust_string_length
 
 '''
 #处理Ctrl+C时发生的“forrtl: error (200): program aborting due to control-C event”错误事件
@@ -81,7 +82,8 @@ def update(mode):
         for code in lst:
             result[code] = ana.update_index_data(code)
             sys.stdout.flush()
-            sys.stdout.write('%s\tfinished, \t%d/%d             \r'%(code, lst.index(code), len(lst)))
+            output = adjust_string_length(code, 15) + ' finished, ' + '%d/%d\r'%(lst.index(code), len(lst))
+            sys.stdout.write(output)
             
         res = pd.Series(result)
         #rg = res.groupby(res.map(type))
@@ -112,7 +114,8 @@ def update(mode):
             sresult[code] = ana.updata_stock_data(ts_code=code)
             
             sys.stdout.flush()
-            sys.stdout.write('%s\tfinished, \t%d/%d        \r'%(code, slst.index(code), len(slst)))
+            output = adjust_string_length(code, 15) + ' finished, ' + '%d/%d\r'%(lst.index(code), len(lst))
+            sys.stdout.write(output)
             
         result = pd.DataFrame(sresult,  index=['cq', 'qfq', 'adj']).T
         print('更新完成复权系数、除权、前复权数据共计%d条！'%(3*len(result)))
@@ -128,7 +131,8 @@ def update(mode):
         for key in lst:
             result[key] = ana.updata_index_weight(key)
             sys.stdout.flush()
-            sys.stdout.write('%s\tfinished, \t%d/%d        \r'%(key, lst.index(key)+1, len(lst)))
+            output = adjust_string_length(key, 15) + ' finished, ' + '%d/%d\r'%(lst.index(key)+1, len(lst))
+            sys.stdout.write(output)
         res = pd.Series(result)
         #rg = res.groupby(res.map(type))
         rg = res.groupby(res.map(lambda x : type(x).__name__))
@@ -154,7 +158,8 @@ def update(mode):
         for code in lst:
             result[code] = ana.updata_top_index_data(code)
             sys.stdout.flush()
-            sys.stdout.write('%s\tfinished, \t%d/%d        \r'%(code, lst.index(code)+1, len(lst)))
+            output = adjust_string_length(code, 15) + ' finished, ' + '%d/%d\r'%(lst.index(code)+1, len(lst))
+            sys.stdout.write(output)
         res = pd.Series(result)
         #rg = res.groupby(res.map(type))
         rg = res.groupby(res.map(lambda x : type(x).__name__))

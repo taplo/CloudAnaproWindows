@@ -39,3 +39,15 @@ def gzip_decompress(buf):
     with GzipFile(fileobj=obj) as f:
         result = f.read()
     return result
+
+"""
+调整字符串长度的方法。
+输入字符串和一个整数，将输入字符串长度调整为整数指定的长度，用空格补全。
+如果字符串长度超过指定长度则截断，并在末尾加入...字符。
+"""
+def adjust_string_length(string, length):
+    if len(string) < length:
+        string += ' ' * (length - len(string))
+    elif len(string) > length:
+        string = string[:length-3] + '...'
+    return string
