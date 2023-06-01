@@ -53,15 +53,12 @@ class Anapro:
             db：整数，Redis数据库编号（通常为[0~15]）
         path：字符串，SQLite的数据库文件目录
         '''
-        if tushare is None:
-            tushare = 'd64e1276b2b891515c790907ab2d3f20f299f2b54029ee9632894867'
 
         if path is None:
             if redis is None:
                 redis = {
                     'host': 'localhost',
-                    'port': '4444',
-                    'password': 'rakewang',
+                    'port': '6379',
                     'db': 0
                 }
             self.__StrictRedis = red.StrictRedis
