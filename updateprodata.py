@@ -114,7 +114,7 @@ def update(mode):
             sresult[code] = ana.updata_stock_data(ts_code=code)
             
             sys.stdout.flush()
-            output = adjust_string_length(code, 15) + ' finished, ' + '%d/%d\r'%(lst.index(code), len(lst))
+            output = adjust_string_length(code, 15) + ' finished, ' + '%d/%d\r'%(slst.index(code), len(slst))
             sys.stdout.write(output)
             
         result = pd.DataFrame(sresult,  index=['cq', 'qfq', 'adj']).T
