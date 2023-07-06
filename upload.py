@@ -6,12 +6,22 @@ Created on 2023-05-19 09:10:00
 """
 import os
 import datetime
+import configparser
 from aligo import Aligo, EMailConfig
 
 
 def upload_file():
-    email_config = EMailConfig(email='taplo@qq.com', user='wtdwang@189.cn', password='Re=2Pd)6x#0Xj!8D',
-                           host='smtp.189.cn', port=25)
+    conf = configparser.ConfigParser()
+    conf.read('../config.ini',encoding="utf-8-sig")
+    
+    target_email = conf.get('anapro', 'target_email')
+    username = conf.get('anapro', 'user')
+    password = conf.get('anapro', 'password')
+    host = conf.get('anapro', 'host')
+    port = int(conf.get('anapro', 'port'))
+    
+    email_config = EMailConfig(email=target_email, user=username, password=password,
+                           host=host, port=port)
     ali = Aligo(email=email_config)
     remote_folder = ali.get_folder_by_path('数据')
     
