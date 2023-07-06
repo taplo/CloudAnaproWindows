@@ -74,7 +74,7 @@ class Anapro:
         self.__ts_api = ts.pro_api(tushare)
 
         # 设置节奏控制器
-        self.__rhy = Rhythm(495, 60)
+        self.__rhy = Rhythm(475, 60)
         self.__rhy.start()
 
         # 设置日历
