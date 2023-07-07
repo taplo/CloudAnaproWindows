@@ -68,13 +68,16 @@ class rhythm():
         self.__q.put('end')
 """
 
-#### 多线程版，可以在Jupyter中使用
+# 多线程版，可以在Jupyter中使用
+
+#from math import ceil
+
+
+
 
 from threading import Thread
 from queue import Queue
 from time import sleep
-#from math import ceil
-
 class Rhythm():
     '''
     定时节奏管理类
@@ -89,23 +92,24 @@ class Rhythm():
     __sleep = None
     # 独立线程
     __thread = None
-    
+
     def __init__(self, times=10, period=60):
         '''times：次数上限
         period：计次周期（单位：秒）'''
         self.__q = Queue(1)
         self.__sleep = 1.02 * period / times
         self.__thread = self.auto_counter(self.__sleep, self.__q)
-        
+
     class auto_counter(Thread):
         '''自动出栈的线程类'''
         __delay = None
         __que = None
-        
+
         def __init__(self, delay, que):
             Thread.__init__(self)
             self.__delay = delay
             self.__que = que
+            self.daemon = True
 
         def run(self):
             '''
@@ -113,23 +117,15 @@ class Rhythm():
             '''
             while self.__que.get():
                 sleep(self.__delay)
-
-    def __del__(self):
-        try:
-            if self.__thread is None:
-                exit()
-            if self.__thread.is_alive():
-                self.__q.put(False)
-                del self.__thread
-            else:
-                del self.__thread        
-        except:
-            pass
-    
+        
+        def stop(self):
+            if self.is_alive():
+                self.__que.put(False)
+                
     def start(self):
         '''启动节奏控制'''
         self.__thread.start()
-        #print 'every times will pause %s'%str(self.__sleep)
+        # print 'every times will pause %s'%str(self.__sleep)
 
     def checker(self):
         '''
@@ -139,12 +135,11 @@ class Rhythm():
             self.__q.put(True)
         else:
             print('请先用rythm.start()启动对象计时')
-        
+
     def stop(self):
         '''软终止独立进程的方法'''
         if self.__thread.is_alive():
-            self.__q.put(False, timeout=2)
-            self.__thread.join()
+            self.__thread.stop()
             del self.__thread
         else:
             del self.__thread
