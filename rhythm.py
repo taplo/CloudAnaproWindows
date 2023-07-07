@@ -119,7 +119,7 @@ class Rhythm():
             if self.__thread is None:
                 exit()
             if self.__thread.is_alive():
-                self.__q.put('end')
+                self.__q.put(False)
                 del self.__thread
             else:
                 del self.__thread        
@@ -143,7 +143,7 @@ class Rhythm():
     def stop(self):
         '''软终止独立进程的方法'''
         if self.__thread.is_alive():
-            self.__q.put(False, timeout=1)
+            self.__q.put(False, timeout=2)
             self.__thread.join()
             del self.__thread
         else:
